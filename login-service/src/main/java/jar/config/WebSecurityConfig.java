@@ -2,26 +2,16 @@ package jar.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import jar.service.LoginService;
 
 @Configuration
 @EnableWebSecurity(debug = true)
 public class WebSecurityConfig {
-    
-    private final LoginService loginService;
-    private final Environment env;
-    
-    public WebSecurityConfig(LoginService loginService, Environment env) {
-        this.loginService = loginService;
-        this.env = env;
-    }
-    
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable()) // CSRF 비활성화 (POST 호출을 위해 필수)
