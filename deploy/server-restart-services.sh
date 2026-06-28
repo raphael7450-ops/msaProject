@@ -47,6 +47,11 @@ fi
 DEPLOY_MODE="${DEPLOY_MODE:-restart}"   # restart | recreate
 WAIT_SECONDS="${WAIT_SECONDS:-5}"
 
+JWT_SECRET="${JWT_SECRET:?JWT_SECRET is required}"
+DB_USERNAME="${DB_USERNAME:?DB_USERNAME is required}"
+DB_PASSWORD="${DB_PASSWORD:?DB_PASSWORD is required}"
+SPRING_DATASOURCE_URL="${SPRING_DATASOURCE_URL:-jdbc:postgresql://user-db:5432/user_db}"
+
 log()  { echo "[$(date '+%H:%M:%S')] $*"; }
 fail() { echo "[ERROR] $*" >&2; exit 1; }
 
@@ -125,6 +130,12 @@ recreate_java_service() {
     -p "${port}:${port}"
     -e "SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}"
     -e "JAVA_TOOL_OPTIONS=${JAVA_OPTS}"
+    -e "JWT_SECRET=${JWT_SECRET}"
+    -e "DB_USERNAME=${DB_USERNAME}"
+    -e "DB_PASSWORD=${DB_PASSWORD}"
+    -e "SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}"
+    -e "SPRING_DATASOURCE_USERNAME=${DB_USERNAME}"
+    -e "SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}"
     -v "${jar}:/app/app.jar:ro"
   )
 
