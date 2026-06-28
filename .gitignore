@@ -1,0 +1,17 @@
+.metadata/
+repomix-output.xml
+
+**/build/
+**/bin/
+**/.gradle/
+**/.settings/
+**/.classpath
+**/.project
+
+*.log
+*.tmp
+*.bak
+*.swp
+
+.env
+*.env

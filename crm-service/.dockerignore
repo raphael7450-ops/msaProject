@@ -1,0 +1,9 @@
+.gradle/
+bin/
+.idea/
+*.iml
+.git/
+.gitignore
+deploy.bat
+deploy.sh
+*.md

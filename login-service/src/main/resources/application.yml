@@ -1,0 +1,42 @@
+# 부트스트랩 — JWT 등은 config-repo/login-service.yml
+server:
+  port: 8088
+
+spring:
+  application:
+    name: login-service
+  profiles:
+    active: local
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "info,health,beans"
+  endpoint:
+    health:
+      show-details: always
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+    import: optional:configserver:http://localhost:8888
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+    import: optional:configserver:http://config-server:8888
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/

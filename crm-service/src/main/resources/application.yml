@@ -1,0 +1,43 @@
+# 부트스트랩 — 포트/Thymeleaf/DB는 config-repo/crm-service*.yml
+# Docker 단독 실행 시 환경 변수로 DB 주입 가능 (SPRING_DATASOURCE_*)
+spring:
+  application:
+    name: crm-service
+  profiles:
+    active: local
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://192.168.55.223:5432/user_db}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+
+server:
+  port: ${SERVER_PORT:8083}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+    import: optional:configserver:http://localhost:8888
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+    import: optional:configserver:http://config-server:8888
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/

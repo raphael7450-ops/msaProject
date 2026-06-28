@@ -1,0 +1,42 @@
+# config-server: local=PC(C:/MSA/config-repo), prod=도커 서버(/data/config-repo)
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: local
+    include: native
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: file:///C:/MSA/config-repo/
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: file:///data/config-repo/
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/

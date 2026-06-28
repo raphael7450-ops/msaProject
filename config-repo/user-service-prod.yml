@@ -1,0 +1,7 @@
+# prod 프로파일: 도커 서버 내부 → user-db 컨테이너
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://user-db:5432/user_db
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
