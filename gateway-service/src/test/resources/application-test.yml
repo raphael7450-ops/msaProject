@@ -1,0 +1,13 @@
+spring:
+  cloud:
+    config:
+      enabled: false
+  config:
+    import: ""
+
+jwt:
+  secret: test_secret_key_2026_for_hs256_validation
+
+eureka:
+  client:
+    enabled: false

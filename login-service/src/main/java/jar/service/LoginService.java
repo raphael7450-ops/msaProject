@@ -32,7 +32,8 @@ public class LoginService {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid userId or password");
 		}
 
-		return tokenProvider.createToken(user.getUserId());
+		String role = user.getRole() == null || user.getRole().isBlank() ? "USER" : user.getRole();
+		return tokenProvider.createToken(user.getUserId(), role);
 	}
 
 }

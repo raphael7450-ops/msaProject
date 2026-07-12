@@ -192,18 +192,20 @@
         <div class="brand-sub">MSA 기반 고객 관리</div>
         <nav>
             <a class="nav-item active" th:href="${basePath + '/'}">대시보드</a>
-            <a class="nav-item" th:href="${basePath + '/customers/new'}">고객 등록</a>
         </nav>
     </aside>
 
     <main class="main">
         <header class="header">
             <h1>CRM 대시보드</h1>
-            <p>고객 등록 · 수정 · 삭제 (user-service 연동)</p>
+            <p>고객 조회 · CRM 영업 현황 (user-service 조회 연동)</p>
         </header>
 
         <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
         <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+        <div th:if="${userServiceUnavailable}" class="alert alert-error">
+            사용자 서비스가 일시적으로 응답하지 않습니다. 고객 목록을 잠시 후 다시 확인해 주세요.
+        </div>
 
         <section class="stats-grid">
             <div class="stat-card">
@@ -215,7 +217,7 @@
         <section class="panel">
             <div class="panel-header">
                 <h2>고객 목록</h2>
-                <a class="btn" th:href="${basePath + '/customers/new'}">+ 고객 추가</a>
+                <span class="footer-note">등록·수정·삭제는 관리자 기능에서 처리합니다.</span>
             </div>
             <table>
                 <thead>
@@ -224,12 +226,14 @@
                     <th>사용자 ID</th>
                     <th>이메일</th>
                     <th>상태</th>
-                    <th>관리</th>
+                    <th>상세</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:if="${#lists.isEmpty(customers)}" class="empty-row">
-                    <td colspan="5">등록된 고객이 없습니다. [고객 추가]로 등록해 주세요.</td>
+                    <td colspan="5" th:text="${userServiceUnavailable} ? '사용자 서비스가 일시적으로 응답하지 않습니다.' : '등록된 고객이 없습니다.'">
+                        등록된 고객이 없습니다.
+                    </td>
                 </tr>
                 <tr th:each="customer : ${customers}">
                     <td th:text="${customer.name}">이름</td>
@@ -239,12 +243,7 @@
                     <td>
                         <div class="actions">
                             <a class="btn btn-sm btn-outline"
-                               th:href="${basePath + '/customers/' + customer.id + '/edit'}">수정</a>
-                            <form th:action="${basePath + '/customers/' + customer.id + '/delete'}"
-                                  method="post"
-                                  onsubmit="return confirm('정말 삭제하시겠습니까?');">
-                                <button class="btn btn-sm btn-danger" type="submit">삭제</button>
-                            </form>
+                               th:href="${basePath + '/customers/' + customer.id}">보기</a>
                         </div>
                     </td>
                 </tr>

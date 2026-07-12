@@ -1,5 +1,12 @@
 # crm-service 공통 설정
 spring:
+  cloud:
+    openfeign:
+      client:
+        config:
+          user-service:
+            connect-timeout: 1000
+            read-timeout: 2000
   thymeleaf:
     cache: false
   jpa:
@@ -13,3 +20,15 @@ spring:
 
 app:
   base-path: ""
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      user-service-customers:
+        sliding-window-size: 10
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+      user-service-customer:
+        sliding-window-size: 10
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s

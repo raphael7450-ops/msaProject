@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고객 상세 - Changwon CRM</title>
+    <style>
+        body { font-family: "Segoe UI", "Malgun Gothic", sans-serif; background: #f4f6fb; color: #0f172a; margin: 0; }
+        .main { padding: 32px; }
+        .panel { max-width: 640px; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 28px; }
+        h1 { margin: 0 0 24px; font-size: 1.5rem; }
+        dl { display: grid; grid-template-columns: 120px 1fr; gap: 12px 20px; }
+        dt { color: #64748b; font-weight: 600; }
+        dd { margin: 0; }
+        .btn { display: inline-block; margin-top: 28px; padding: 10px 18px; border-radius: 8px; background: #e2e8f0; color: #0f172a; text-decoration: none; }
+    </style>
+</head>
+<body>
+<main class="main">
+    <section class="panel">
+        <h1>고객 상세</h1>
+        <dl>
+            <dt>이름</dt>
+            <dd th:text="${customer.name}">이름</dd>
+            <dt>사용자 ID</dt>
+            <dd th:text="${customer.company}">userId</dd>
+            <dt>이메일</dt>
+            <dd th:text="${customer.email}">email</dd>
+            <dt>상태</dt>
+            <dd th:text="${customer.status}">등록</dd>
+        </dl>
+        <a class="btn" th:href="${basePath + '/'}">목록으로</a>
+    </section>
+</main>
+</body>
+</html>
